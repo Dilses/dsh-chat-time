@@ -1,0 +1,6 @@
+- insert:
+    - id: chat-time
+      name: '@local/dsh-chat-time'
+      config:
+        enabled: true
+        template: '<meta time="{time}">'

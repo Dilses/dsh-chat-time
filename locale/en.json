@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Chat time tag",
+    "description": "Prepends a metadata tag holding the Host's local time, to the minute, to every user message before the agent processes it. The tag is written into the session log for the model, while chat bubbles and session titles hide it; only the Run trajectory page shows the raw text."
+  }
+}
