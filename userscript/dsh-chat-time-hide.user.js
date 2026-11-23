@@ -2,8 +2,8 @@
 // @name         DSH · 隐藏聊天时间标签
 // @namespace    dsh-chat-time
 // @version      1.0.0
-// @updateURL    https://raw.githubusercontent.com/Dilses/dsh-chat-time/refs/heads/main/userscript/dsh-chat-time.user.js
-// @downloadURL  https://raw.githubusercontent.com/Dilses/dsh-chat-time/refs/heads/main/userscript/dsh-chat-time.user.js
+// @updateURL    https://raw.githubusercontent.com/Dilses/dsh-chat-time/refs/heads/main/userscript/dsh-chat-time-hide.user.js
+// @downloadURL  https://raw.githubusercontent.com/Dilses/dsh-chat-time/refs/heads/main/userscript/dsh-chat-time-hide.user.js
 // @description  隐藏 DSH 界面里的 <meta time="..."> 注入标签（会话导航预览、用户消息气泡）；运行轨迹页保持原文
 // @author       dsh-chat-time
 // @match        http://127.0.0.1:3080/*
