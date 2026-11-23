@@ -146,4 +146,40 @@
   } catch (error) {
     console.warn('[dsh-chat-time] 首屏清理失败：', error)
   }
+
+  // 手动增补
+
+  function transform(text) {
+    return String(text).replace(/^<meta time="[^"]*">/,'');
+  }
+
+  // 1. 拦截 navigator.clipboard.writeText
+  try {
+    const clip = navigator.clipboard;
+    if (clip && clip.writeText) {
+      const orig = clip.writeText.bind(clip);
+      clip.writeText = (text) => orig(transform(text));
+    }
+  } catch (e) {
+    console.warn('[copy-mod] writeText 劫持失败', e);
+  }
+
+  // 2. 拦截 copy 事件
+  function getSelectedText(e) {
+    const el = e.target;
+    if (el && (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT')) {
+      return el.value.slice(el.selectionStart, el.selectionEnd);
+    }
+    return window.getSelection()?.toString() || '';
+  }
+
+  window.addEventListener('copy', (e) => {
+    if (!e.clipboardData) return;
+    const text = getSelectedText(e);
+    if (!text) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    e.clipboardData.setData('text/plain', transform(text));
+  }, true);
 })()
