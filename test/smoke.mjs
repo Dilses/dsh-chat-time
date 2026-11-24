@@ -3,6 +3,7 @@
  * 不依赖 Cordis 运行时。运行： node test/smoke.mjs
  */
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { apply, name } from '../index.js'
 
 /** 最小 ctx 替身：只提供 ctx.on / ctx.get，并记录监听器。 */
@@ -252,7 +253,7 @@ const flush = () => new Promise(resolve => setTimeout(resolve, 0))
   globalThis.window = { __ModuleLoader__: { load: module => loaded.push(module) } }
   await import('../client.js')
   assert.equal(loaded.length, 1)
-  assert.equal(loaded[0].id, '@local/dsh-chat-time')
+  assert.equal(loaded[0].id, 'dsh-chat-time')
 
   const plugin = loaded[0].factory()
   assert.deepEqual(plugin.inject, ['uiConversation'])
@@ -279,4 +280,15 @@ const flush = () => new Promise(resolve => setTimeout(resolve, 0))
   assert.equal(rule.match('', 0), undefined)
 }
 
-console.log(`ok — ${name}：13 组用例全部通过`)
+// 14. 包名一致性：Loader 行、客户端 bundle id、package.json name 必须相同。
+// 否则 DSH 的 client-modules 扫描按行名匹配 package.json name 时会跳过本包，
+// 浏览器半不会进入启动图（气泡里的标签就不会被隐藏）。
+{
+  const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
+  const patch = readFileSync(new URL('../cordis.patch.yml', import.meta.url), 'utf8')
+  const client = readFileSync(new URL('../client.js', import.meta.url), 'utf8')
+  assert.ok(patch.includes(`name: '${pkg.name}'`), 'cordis.patch.yml 的行名必须等于 package.json name')
+  assert.ok(client.includes(`id: '${pkg.name}'`), 'client.js 的 bundle id 必须等于 package.json name')
+}
+
+console.log(`ok — ${name}：14 组用例全部通过`)

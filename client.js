@@ -10,7 +10,7 @@
  * 手写的普通文字；自定义 template 时只要保持“标签 + ISO 时间”的形状也照样生效。
  */
 window.__ModuleLoader__.load({
-  id: '@local/dsh-chat-time',
+  id: 'dsh-chat-time',
   factory() {
     /** 开头标签 + ISO 分钟时间；前后空白一并归入被隐藏的区间。 */
     const LEADING_TAG = /^[ \t]*<[A-Za-z][\w:.-]*\b[^<>]*?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}[^<>]*?>[ \t]*/u
